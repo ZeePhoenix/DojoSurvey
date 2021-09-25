@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/")
 public class HomeController {
-    @RequestMapping("/")
-    public String index(){
+    @RequestMapping("")
+    public String index(HttpSession session){
         return "index.jsp";
     }
 
-    @RequestMapping(path="/formSubmit", method = RequestMethod.POST)
+    @RequestMapping(path="formSubmit", method = RequestMethod.POST)
     public String formSubmit(@RequestParam(value="name") String name, @RequestParam(value="loc") String loc, @RequestParam(value="lang") String lang, @RequestParam(value="comment") String comment, HttpSession session){
         session.setAttribute("name", name);
         session.setAttribute("location", loc);
@@ -24,7 +25,7 @@ public class HomeController {
         return "redirect:/response";
     }
 
-    @RequestMapping("/response")
+    @RequestMapping("response")
     public String response(HttpSession session, Model model){
         String name = (String) session.getAttribute("name");
         String location = (String) session.getAttribute("location");
